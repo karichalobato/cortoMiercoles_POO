@@ -61,7 +61,7 @@ public class Cinepolix extends JFrame{
         container.add(lblClasificacion);
         container.add(lblAño);
         //JTEXTFIELDS
-        container.add(clasificacion);
+        container.add(Clasificacion);
         container.add(año);
         container.add(nombre);
         container.add(director);
