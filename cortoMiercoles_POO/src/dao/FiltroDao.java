@@ -74,7 +74,7 @@ public class FiltroDao implements metodos<Filtro> {
             ps=con.getCnx().prepareStatement(SQL_UPDATE);
             ps.setString(1, c.getDirector());
             ps.setInt(2,c.getAño());
-            ps.setBoolean(3,c.getClasificacion());
+            ps.setString(3,c.getClasificacion());
             if(ps.executeUpdate()>0){
                 return true;
             }            
@@ -98,7 +98,7 @@ public class FiltroDao implements metodos<Filtro> {
             rs=ps.executeQuery();
             
             while(rs.next()){
-                f=new Filtro(rs.getString(1), rs.getString(2),rs.getString(3), rs.getInt(4),rs.getBoolean(5));
+                f=new Filtro(rs.getString(1), rs.getInt(3),rs.getString(2), rs.getString(4),rs.getBoolean(5));
             }
             rs.close();
         }catch(SQLException ex){

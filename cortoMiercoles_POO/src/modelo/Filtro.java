@@ -16,13 +16,14 @@ public class Filtro {
     private int año;    
     private boolean existencia;
     private String clasificacion;
-    
+    private String pais;
     public Filtro(){
     }
     
-    public Filtro(int id,String nombre, int año, String director,String clasificacion, boolean existencia)
+    public Filtro(int id,String nombre, int año, String director,String clasificacion,String pais, boolean existencia)
     {
         this.id=id;
+        this.pais=pais;
         this.año=año;
         this.director=director;
         this.existencia=existencia;
@@ -30,9 +31,9 @@ public class Filtro {
         this.clasificacion=clasificacion;
         
     }
-    
-    public Filtro(String nombre, int año, String director,String clasificacion, boolean existencia){
-        this.año=año;
+       
+    public Filtro(String nombre, int año, String director, String clasificacion, boolean existencia) {
+        this.año=año; 
         this.director=director;
         this.existencia=existencia;
         this.nombre=nombre;
@@ -85,6 +86,14 @@ public class Filtro {
 
     public void setClasificacion(String clasificacion) {
         this.clasificacion = clasificacion;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
     }
 
     
