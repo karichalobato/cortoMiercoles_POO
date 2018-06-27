@@ -20,21 +20,23 @@ import modelo.Filtro;
  * @author LN710Q
  */
 public class FiltroDao implements metodos<Filtro> {
-    private static final String SQL_INSERT="INSERT INTO movie (idMovie, nombre, director, pais,clasificacion, anio, en_proyeccion)VALUES(?,?,?,?)";
+    private static final String SQL_INSERT="INSERT INTO movie (nombre, director, pais,clasificacion, anio, en_proyeccion)VALUES(?,?,?,?,?,?)";
     private static final String SQL_UPDATE="UPDATE movie SET nombre=?,anio=?,existencia=? WHERE nombre=?";
     private static final String SQL_DELETE="DELETE FROM movie WHERE nombre=?";
     private static final String SQL_READ="SELECT * FROM movie WHERE nombre=?";
     private static final String SQL_READALL="SELECT * FROM movie";
     private static final Conexion con = Conexion.conectar();
+   
     @Override
     public boolean create(Filtro g) {
         PreparedStatement ps;
         try{
             ps= con.getCnx().prepareStatement(SQL_INSERT);
             ps.setString(1, g.getNombre());
-            ps.setString(2, g.getPais());
-            ps.setInt(3,g.getAño());
+            ps.setString(2, g.getDirector());
+            ps.setString(3,g.getPais());
             ps.setString(4, g.getClasificacion());
+             ps.setInt(2, g.getAño());
             ps.setBoolean(5, true);
             if(ps.executeUpdate()>0){
                 return true;
@@ -98,7 +100,7 @@ public class FiltroDao implements metodos<Filtro> {
             rs=ps.executeQuery();
             
             while(rs.next()){
-                f=new Filtro(rs.getString(1), rs.getInt(3),rs.getString(2), rs.getString(4),rs.getBoolean(5));
+                f=new Filtro(rs.getString(1), rs.getString(2), rs.getString(3),rs.getString(4),rs.getInt(5),rs.getBoolean(6));
             }
             rs.close();
         }catch(SQLException ex){
@@ -117,8 +119,13 @@ public class FiltroDao implements metodos<Filtro> {
         ResultSet rs;
         try{
             s=con.getCnx().prepareStatement(SQL_READALL);
-        }catch(SQLException ex){
-            Logger.getLogger(FiltroDao.class.getName()).log(Level.SEVERE, null, ex);
+            rs = s.executeQuery(SQL_READALL);
+            while(rs.next())
+            {
+                all.add(new Filtro(rs.getString("nombre"), rs.getString("director"), rs.getString("pais"), rs.getString("clasificacion"), rs.getInt("anio"), rs.getBoolean("en_proyeccion")));
+            }
+        }catch(Exception ex){
+            System.out.println("alsksk");
         }
         return all;
     }

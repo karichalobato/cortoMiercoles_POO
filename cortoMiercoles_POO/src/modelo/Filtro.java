@@ -32,9 +32,10 @@ public class Filtro {
         
     }
        
-    public Filtro(String nombre, int año, String director, String clasificacion, boolean existencia) {
+    public Filtro(String nombre, String director, String pais, String clasificacion, int año, boolean existencia) {
         this.año=año; 
         this.director=director;
+        this.pais=pais;
         this.existencia=existencia;
         this.nombre=nombre;
         this.clasificacion=clasificacion;
@@ -42,6 +43,11 @@ public class Filtro {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Filtro{" + "id=" + id + ", nombre=" + nombre + ", director=" + director + ", a\u00f1o=" + año + ", existencia=" + existencia + ", clasificacion=" + clasificacion + ", pais=" + pais + '}';
     }
 
     public void setId(int id) {

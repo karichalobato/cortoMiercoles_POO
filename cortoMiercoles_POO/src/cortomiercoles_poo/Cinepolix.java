@@ -28,8 +28,8 @@ import modelo.Filtro;
  * @author LN710Q
  */
 public class Cinepolix extends JFrame{
-    public JLabel lblNombre, lblDirector, lblPais,lblClasificacion,lblAño;
-    public JTextField nombre, director,pais,clasificacion,año;
+    public JLabel lblNombre, lblDirector, lblPais,lblClasificacion,lblaño,lblestado;
+    public JTextField nombre, director,año,clasificacion,pais,estado;
     public JComboBox Clasificacion;
 
     ButtonGroup existencia = new ButtonGroup();
@@ -59,12 +59,14 @@ public class Cinepolix extends JFrame{
         container.add(lblDirector);
         container.add(lblPais);
         container.add(lblClasificacion);
-        container.add(lblAño);
+        container.add(lblaño);
+        container.add(lblestado);
         //JTEXTFIELDS
         container.add(Clasificacion);
-        container.add(año);
+        container.add(pais);
         container.add(nombre);
         container.add(director);
+        container.add(año);
         
         //CHECKBOX
         container.add(si);
@@ -85,21 +87,22 @@ public class Cinepolix extends JFrame{
         lblDirector = new JLabel("Director");
         lblPais = new JLabel("País");
         lblClasificacion = new JLabel("Clasificación");
-        lblAño = new JLabel("Estado");
+        lblaño = new JLabel("Año");
+        lblestado = new JLabel("Estado");
 
         lblNombre.setBounds(10, 60, ANCHOC, ALTOC);
         lblDirector.setBounds(10, 100, ANCHOC, ALTOC);
         lblPais.setBounds(400, 60, ANCHOC, ALTOC);
         lblClasificacion.setBounds(10,140, ANCHOC, ALTOC);
-        lblAño.setBounds(10, 180, ANCHOC, ALTOC);
-
+        lblaño.setBounds(400, 100, ANCHOC, ALTOC);
+        lblestado.setBounds(10, 170, ANCHOC, ALTOC);
     }
 
     public final void formulario() {
         //CREACION DE TEXT FIELDS
         
         Clasificacion = new JComboBox();
-        año = new JTextField();
+        pais = new JTextField();
         nombre = new JTextField();
         director = new JTextField();
         si = new JRadioButton("si", true);
@@ -109,6 +112,7 @@ public class Cinepolix extends JFrame{
         insertar = new JButton("Insertar");
         eliminar = new JButton("Eliminar");
         actualizar = new JButton("Actualizar");
+        año = new JTextField();
         
 
         table = new JPanel();
@@ -125,8 +129,9 @@ public class Cinepolix extends JFrame{
         
         //TAMAÑO Y LUGAR DE LOS TEXTFIELDS
         Clasificacion.setBounds(140,140,ANCHOC,ALTOC);
+        año.setBounds(500,100, ANCHOC, ALTOC);
         nombre.setBounds(140, 60, ANCHOC, ALTOC);
-        año.setBounds(500, 60, ANCHOC, ALTOC);
+        pais.setBounds(500, 60, ANCHOC, ALTOC);
         director.setBounds(140, 100, 80, ALTOC);
         si.setBounds(140, 180, 50, ALTOC);
         no.setBounds(210, 180, 50, ALTOC);
@@ -152,21 +157,31 @@ public class Cinepolix extends JFrame{
                         return String.class;
                     case 2:
                         return String.class;
+                    case 3:
+                        return String.class;
+                    case 4:
+                        return String.class;
+          
                     default:
                         return Boolean.class;
                 }
             }
         };
+        //tm.addColumn("idMovie");
         tm.addColumn("Nombre");
         tm.addColumn("Año");
         tm.addColumn("Director");
-        tm.addColumn("Clasificacion");
+        tm.addColumn("pais");
+        tm.addColumn("clasificacion");
+       
+       tm.addColumn("en_proyeccion");
 
         FiltroDao fd = new FiltroDao();
         ArrayList<Filtro> filtros = fd.readAll();
 
         for (Filtro fi : filtros) {
-            tm.addRow(new Object[]{fi.getNombre(), fi.getAño(), fi.getDirector(), fi.getExistencia()});
+            System.out.println(fi);
+            tm.addRow(new Object[]{fi.getNombre(), fi.getAño(), fi.getDirector(), fi.getPais(),fi.getClasificacion(),fi.getExistencia()});
         }
         resultados.setModel(tm);
     }
@@ -177,7 +192,8 @@ public class Cinepolix extends JFrame{
             public void actionPerformed(ActionEvent ae) {
                 FiltroDao fd = new FiltroDao();
                 
-                Filtro  f=new Filtro(nombre.getText(), Integer.parseInt(año.getText()), director.getText(),Clasificacion.getSelectedItem().toString(), true);
+                Filtro  f=new Filtro(nombre.getText(), director.getText(), pais.getText(),
+                        Clasificacion.getSelectedItem().toString(),Integer.parseInt(pais.getText()), true);
                 if (no.isSelected()) {
                     f.setExistencia(false);
                 }
@@ -196,7 +212,7 @@ public class Cinepolix extends JFrame{
             @Override
             public void actionPerformed(ActionEvent ae) {
                 FiltroDao fd = new FiltroDao();
-                Filtro    f=new Filtro(nombre.getText(), Integer.parseInt(año.getText()), director.getText(), Clasificacion.getSelectedItem().toString(), true);
+                Filtro  f=new Filtro(nombre.getText(), director.getText(), pais.getText(),Clasificacion.getSelectedItem().toString(),Integer.parseInt(pais.getText()), true);
                 if (no.isSelected()) {
                     f.setExistencia(false);
                 }
@@ -234,7 +250,7 @@ public class Cinepolix extends JFrame{
                 } else {
                     nombre.setText(f.getNombre());
                     Clasificacion.setSelectedItem(f.getClasificacion());
-                    año.setText(Integer.toString(f.getAño()));
+                    pais.setText(Integer.toString(f.getAño()));
 
                     if (f.getExistencia()) {
                         si.setSelected(true);

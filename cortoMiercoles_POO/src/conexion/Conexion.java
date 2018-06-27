@@ -37,7 +37,7 @@ public class Conexion {
             cnx = (Connection) DriverManager.getConnection(this.url, this.user, this.pass);
           
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("xzdccc");
         }
     }
 
